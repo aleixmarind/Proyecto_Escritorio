@@ -1,0 +1,23 @@
+[
+    {
+        "Nombre": "App Veterinaria",
+        "FechaInicio": "2025-05-01T00:00:00",
+        "FechaFin": "2025-06-15T00:00:00",
+        "Tareas": [
+            {
+                "Titulo": "Diseñar interfaz",
+                "FechaInicio": "2025-05-01T00:00:00",
+                "FechaFin": "2025-05-05T00:00:00",
+                "AsignadoA": "admin@gmail.com",
+                "SubTareas": [
+                    {
+                        "Titulo": "Crear bocetos",
+                        "FechaInicio": "2025-05-01T00:00:00",
+                        "FechaFin": "2025-05-02T00:00:00",
+                        "AsignadoA": "admin@gmail.com"
+                    }
+                ]
+            }
+        ]
+    }
+]
