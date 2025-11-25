@@ -1,23 +1,14 @@
 [
-    {
-        "Nombre": "App Veterinaria",
-        "FechaInicio": "2025-05-01T00:00:00",
-        "FechaFin": "2025-06-15T00:00:00",
-        "Tareas": [
-            {
-                "Titulo": "Diseñar interfaz",
-                "FechaInicio": "2025-05-01T00:00:00",
-                "FechaFin": "2025-05-05T00:00:00",
-                "AsignadoA": "admin@gmail.com",
-                "SubTareas": [
-                    {
-                        "Titulo": "Crear bocetos",
-                        "FechaInicio": "2025-05-01T00:00:00",
-                        "FechaFin": "2025-05-02T00:00:00",
-                        "AsignadoA": "admin@gmail.com"
-                    }
-                ]
-            }
-        ]
-    }
+  {
+    "Id": "81af4529-e32a-4305-82c3-bc2776e1b650",
+    "Nombre": "Proyecto 1",
+    "Descripcion": "Carlos gilipollas",
+    "FechaInicio": "2025-11-25T20:04:21.8615967+01:00",
+    "FechaFin": "2025-12-02T20:04:21.8626109+01:00",
+    "UsuariosAsignados": [
+      "20f6127b-defd-4ead-afbc-9a4617ce89f1",
+      "ad6d7e43-a7b2-45b7-bf74-1b3842657785"
+    ],
+    "Tareas": []
+  }
 ]

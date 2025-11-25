@@ -67,6 +67,7 @@
             this.button_VerProyectos.TabIndex = 16;
             this.button_VerProyectos.Text = "Ver proyectos";
             this.button_VerProyectos.UseVisualStyleBackColor = false;
+            this.button_VerProyectos.Click += new System.EventHandler(this.button_VerProyectos_Click);
             // 
             // button1
             // 

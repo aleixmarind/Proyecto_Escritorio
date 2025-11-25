@@ -34,6 +34,7 @@
             this.label_Servicios = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.button_CrearUsuarios = new System.Windows.Forms.Button();
+            this.button_VerUsuarios = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -43,9 +44,9 @@
             this.button_CrearProyectos.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.button_CrearProyectos.Font = new System.Drawing.Font("Segoe UI Semibold", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button_CrearProyectos.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.button_CrearProyectos.Location = new System.Drawing.Point(261, 124);
+            this.button_CrearProyectos.Location = new System.Drawing.Point(276, 117);
             this.button_CrearProyectos.Name = "button_CrearProyectos";
-            this.button_CrearProyectos.Size = new System.Drawing.Size(318, 55);
+            this.button_CrearProyectos.Size = new System.Drawing.Size(287, 33);
             this.button_CrearProyectos.TabIndex = 1;
             this.button_CrearProyectos.Text = "Crear Proyecto";
             this.button_CrearProyectos.UseVisualStyleBackColor = false;
@@ -57,9 +58,9 @@
             this.button_GestionarProyecto.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.button_GestionarProyecto.Font = new System.Drawing.Font("Segoe UI Semibold", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button_GestionarProyecto.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.button_GestionarProyecto.Location = new System.Drawing.Point(261, 269);
+            this.button_GestionarProyecto.Location = new System.Drawing.Point(276, 234);
             this.button_GestionarProyecto.Name = "button_GestionarProyecto";
-            this.button_GestionarProyecto.Size = new System.Drawing.Size(318, 55);
+            this.button_GestionarProyecto.Size = new System.Drawing.Size(287, 33);
             this.button_GestionarProyecto.TabIndex = 3;
             this.button_GestionarProyecto.Text = "Gestionar Proyecto";
             this.button_GestionarProyecto.UseVisualStyleBackColor = false;
@@ -71,9 +72,9 @@
             this.button_CerrarSesion.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.button_CerrarSesion.Font = new System.Drawing.Font("Segoe UI Semibold", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button_CerrarSesion.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.button_CerrarSesion.Location = new System.Drawing.Point(261, 342);
+            this.button_CerrarSesion.Location = new System.Drawing.Point(276, 273);
             this.button_CerrarSesion.Name = "button_CerrarSesion";
-            this.button_CerrarSesion.Size = new System.Drawing.Size(318, 55);
+            this.button_CerrarSesion.Size = new System.Drawing.Size(287, 33);
             this.button_CerrarSesion.TabIndex = 4;
             this.button_CerrarSesion.Text = "Cerrar Sesión";
             this.button_CerrarSesion.UseVisualStyleBackColor = false;
@@ -105,19 +106,34 @@
             this.button_CrearUsuarios.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.button_CrearUsuarios.Font = new System.Drawing.Font("Segoe UI Semibold", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button_CrearUsuarios.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.button_CrearUsuarios.Location = new System.Drawing.Point(261, 198);
+            this.button_CrearUsuarios.Location = new System.Drawing.Point(276, 156);
             this.button_CrearUsuarios.Name = "button_CrearUsuarios";
-            this.button_CrearUsuarios.Size = new System.Drawing.Size(318, 55);
+            this.button_CrearUsuarios.Size = new System.Drawing.Size(287, 33);
             this.button_CrearUsuarios.TabIndex = 6;
             this.button_CrearUsuarios.Text = "Crear usuarios";
             this.button_CrearUsuarios.UseVisualStyleBackColor = false;
             this.button_CrearUsuarios.Click += new System.EventHandler(this.button_CrearUsuarios_Click);
             // 
+            // button_VerUsuarios
+            // 
+            this.button_VerUsuarios.BackColor = System.Drawing.SystemColors.Highlight;
+            this.button_VerUsuarios.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.button_VerUsuarios.Font = new System.Drawing.Font("Segoe UI Semibold", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button_VerUsuarios.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.button_VerUsuarios.Location = new System.Drawing.Point(276, 195);
+            this.button_VerUsuarios.Name = "button_VerUsuarios";
+            this.button_VerUsuarios.Size = new System.Drawing.Size(287, 33);
+            this.button_VerUsuarios.TabIndex = 7;
+            this.button_VerUsuarios.Text = "Ver usuarios";
+            this.button_VerUsuarios.UseVisualStyleBackColor = false;
+            this.button_VerUsuarios.Click += new System.EventHandler(this.button_VerUsuarios_Click);
+            // 
             // Servicios
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(769, 428);
+            this.Controls.Add(this.button_VerUsuarios);
             this.Controls.Add(this.button_CrearUsuarios);
             this.Controls.Add(this.label_Servicios);
             this.Controls.Add(this.button_CerrarSesion);
@@ -126,6 +142,7 @@
             this.Controls.Add(this.pictureBox1);
             this.Name = "Servicios";
             this.Text = "Servicios";
+            this.Load += new System.EventHandler(this.Servicios_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -140,5 +157,6 @@
         private System.Windows.Forms.Button button_CerrarSesion;
         private System.Windows.Forms.Label label_Servicios;
         private System.Windows.Forms.Button button_CrearUsuarios;
+        private System.Windows.Forms.Button button_VerUsuarios;
     }
 }

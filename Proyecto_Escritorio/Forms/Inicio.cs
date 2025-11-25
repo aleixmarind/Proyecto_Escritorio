@@ -2,14 +2,13 @@
 using System.Windows.Forms;
 using Proyecto_Escritorio.Models;
 using Proyecto_Escritorio.Services;
+using Proyecto_Escritorio.Forms;
 
 namespace Proyecto_Escritorio.Forms
 {
     public partial class Inicio : Form
-    {   
-
+    {
         private AdminService adminService;
-
 
         public Inicio()
         {
@@ -48,8 +47,8 @@ namespace Proyecto_Escritorio.Forms
             if (user != null)
             {
                 lblMensaje.Text = "";
-                // Abrir FormMenu
-                Servicios menu = new Servicios();
+                // Abrir Servicios pasando el usuario logueado
+                Servicios menu = new Servicios(user); // ✅ Pasamos el Usuario
                 menu.Show();
                 this.Hide();
             }

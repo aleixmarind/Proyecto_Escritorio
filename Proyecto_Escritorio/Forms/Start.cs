@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using Proyecto_Escritorio.Forms;
 
 namespace Proyecto_Escritorio
 {
@@ -15,6 +9,13 @@ namespace Proyecto_Escritorio
         public Start()
         {
             InitializeComponent();
+        }
+
+        private void button_Entrar_Click(object sender, EventArgs e)
+        {
+            Inicio crear = new Inicio();
+            crear.ShowDialog();
+            this.Hide();
         }
     }
 }

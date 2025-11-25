@@ -100,6 +100,18 @@
     <Compile Include="Services\AdminService.cs" />
     <Compile Include="Services\ProyectoService.cs" />
     <Compile Include="Services\UsuarioService.cs" />
+    <Compile Include="Forms\VerUsuarios.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\VerUsuarios.Designer.cs">
+      <DependentUpon>VerUsuarios.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\VerProyectos.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\VerProyectos.Designer.cs">
+      <DependentUpon>VerProyectos.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Forms\Crear Usuario.resx">
       <DependentUpon>Crear Usuario.cs</DependentUpon>
     </EmbeddedResource>
@@ -111,6 +123,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Inicio.resx">
       <DependentUpon>Inicio.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\VerProyectos.resx">
+      <DependentUpon>VerProyectos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\VerUsuarios.resx">
+      <DependentUpon>VerUsuarios.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
