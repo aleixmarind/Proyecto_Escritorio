@@ -33,11 +33,11 @@
             this.label_NombreProyecto = new System.Windows.Forms.Label();
             this.label_DescripcionProyecto = new System.Windows.Forms.Label();
             this.labelCompartir = new System.Windows.Forms.Label();
-            this.textBox_Compartir = new System.Windows.Forms.TextBox();
             this.button_CrearProyecto = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.button_Tarea = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
+            this.checkedListBox1 = new System.Windows.Forms.CheckedListBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -79,7 +79,6 @@
             this.label_DescripcionProyecto.Size = new System.Drawing.Size(181, 20);
             this.label_DescripcionProyecto.TabIndex = 10;
             this.label_DescripcionProyecto.Text = "Descripción Del Proyecto";
-            this.label_DescripcionProyecto.Click += new System.EventHandler(this.label1_Click);
             // 
             // labelCompartir
             // 
@@ -91,19 +90,12 @@
             this.labelCompartir.TabIndex = 12;
             this.labelCompartir.Text = "Compartir";
             // 
-            // textBox_Compartir
-            // 
-            this.textBox_Compartir.Location = new System.Drawing.Point(22, 229);
-            this.textBox_Compartir.Name = "textBox_Compartir";
-            this.textBox_Compartir.Size = new System.Drawing.Size(246, 20);
-            this.textBox_Compartir.TabIndex = 11;
-            // 
             // button_CrearProyecto
             // 
             this.button_CrearProyecto.BackColor = System.Drawing.SystemColors.Highlight;
             this.button_CrearProyecto.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.button_CrearProyecto.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.button_CrearProyecto.Location = new System.Drawing.Point(23, 330);
+            this.button_CrearProyecto.Location = new System.Drawing.Point(352, 156);
             this.button_CrearProyecto.Name = "button_CrearProyecto";
             this.button_CrearProyecto.Size = new System.Drawing.Size(176, 44);
             this.button_CrearProyecto.TabIndex = 13;
@@ -126,12 +118,13 @@
             this.button_Tarea.BackColor = System.Drawing.SystemColors.Highlight;
             this.button_Tarea.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.button_Tarea.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.button_Tarea.Location = new System.Drawing.Point(22, 265);
+            this.button_Tarea.Location = new System.Drawing.Point(352, 98);
             this.button_Tarea.Name = "button_Tarea";
             this.button_Tarea.Size = new System.Drawing.Size(176, 44);
             this.button_Tarea.TabIndex = 14;
             this.button_Tarea.Text = "Añadir tarea";
             this.button_Tarea.UseVisualStyleBackColor = false;
+            this.button_Tarea.Click += new System.EventHandler(this.button_Tarea_Click);
             // 
             // textBox1
             // 
@@ -140,16 +133,24 @@
             this.textBox1.Size = new System.Drawing.Size(246, 20);
             this.textBox1.TabIndex = 15;
             // 
+            // checkedListBox1
+            // 
+            this.checkedListBox1.FormattingEnabled = true;
+            this.checkedListBox1.Location = new System.Drawing.Point(13, 230);
+            this.checkedListBox1.Name = "checkedListBox1";
+            this.checkedListBox1.Size = new System.Drawing.Size(373, 154);
+            this.checkedListBox1.TabIndex = 16;
+            // 
             // CrearProyecto
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.checkedListBox1);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.button_Tarea);
             this.Controls.Add(this.button_CrearProyecto);
             this.Controls.Add(this.labelCompartir);
-            this.Controls.Add(this.textBox_Compartir);
             this.Controls.Add(this.label_DescripcionProyecto);
             this.Controls.Add(this.label_NombreProyecto);
             this.Controls.Add(this.textBox_NombreProyecto);
@@ -172,9 +173,9 @@
         private System.Windows.Forms.Label label_NombreProyecto;
         private System.Windows.Forms.Label label_DescripcionProyecto;
         private System.Windows.Forms.Label labelCompartir;
-        private System.Windows.Forms.TextBox textBox_Compartir;
         private System.Windows.Forms.Button button_CrearProyecto;
         private System.Windows.Forms.Button button_Tarea;
         private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.CheckedListBox checkedListBox1;
     }
 }

@@ -9,11 +9,29 @@ namespace Proyecto_Escritorio.Forms
 {
     public partial class Crear_Usuario : Form
     {
-        private string rutaUsuarios = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data", "usuarios.json");
+        private string rutaUsuarios;
+        private string carpetaData; // ✅ Variable de clase para usar en todo el formulario
 
         public Crear_Usuario()
         {
             InitializeComponent();
+
+            // 1️⃣ Obtener la ruta de la carpeta raíz del proyecto
+            string projectPath = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.FullName;
+
+            // 2️⃣ Crear carpeta Data si no existe en la raíz del proyecto
+            carpetaData = Path.Combine(projectPath, "Data");
+            if (!Directory.Exists(carpetaData))
+                Directory.CreateDirectory(carpetaData);
+
+            // 3️⃣ Ruta completa hacia usuarios.json en la carpeta del proyecto
+            rutaUsuarios = Path.Combine(carpetaData, "usuarios.json");
+
+            // Asegurarse de que el archivo exista para no tener problemas al leerlo
+            if (!File.Exists(rutaUsuarios))
+            {
+                File.WriteAllText(rutaUsuarios, "[]");
+            }
         }
 
         private void Crear_Usuario_Load(object sender, EventArgs e)
@@ -32,43 +50,40 @@ namespace Proyecto_Escritorio.Forms
                 return;
             }
 
-            // 🔹 Asegurar que la carpeta Data existe
-            Directory.CreateDirectory(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data"));
-
-            // 🔹 Leer usuarios existentes o crear lista vacía
+            // Cargar usuarios existentes
             List<Usuario> usuarios = new List<Usuario>();
-            if (File.Exists(rutaUsuarios))
+            string jsonExistente = File.ReadAllText(rutaUsuarios);
+            if (!string.IsNullOrWhiteSpace(jsonExistente))
             {
-                string json = File.ReadAllText(rutaUsuarios);
-                usuarios = JsonConvert.DeserializeObject<List<Usuario>>(json) ?? new List<Usuario>();
+                usuarios = JsonConvert.DeserializeObject<List<Usuario>>(jsonExistente) ?? new List<Usuario>();
             }
 
-            // 🔹 Comprobar si el usuario ya existe
-            if (usuarios.Exists(u => u.Email == email))
+            // Verificar si ya existe el usuario
+            if (usuarios.Exists(u => u.Email.Equals(email, StringComparison.OrdinalIgnoreCase)))
             {
                 MessageBox.Show("Este usuario ya existe");
                 return;
             }
 
-            // 🔹 Crear el nuevo usuario
-            var nuevoUsuario = new Usuario
+            // Crear el nuevo usuario con ID único
+            Usuario nuevoUsuario = new Usuario
             {
+                Id = Guid.NewGuid(), // ✅ ID único garantizado
                 Email = email,
                 Password = password,
                 Nombre = nombre
             };
+
             usuarios.Add(nuevoUsuario);
 
-            // 🔹 Guardar en usuarios.json
+            // Guardar en JSON en la carpeta del proyecto
             File.WriteAllText(rutaUsuarios, JsonConvert.SerializeObject(usuarios, Formatting.Indented));
 
-            // 🔹 Crear JSON vacío de proyectos para este usuario
-            string rutaProyectos = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data",
-                $"proyectos_{email.Replace("@", "_").Replace(".", "_")}.json");
-
+            // Crear archivo de proyectos del usuario
+            string rutaProyectos = Path.Combine(carpetaData, $"proyectos_{nuevoUsuario.Id}.json");
             if (!File.Exists(rutaProyectos))
             {
-                File.WriteAllText(rutaProyectos, "[]"); // JSON vacío
+                File.WriteAllText(rutaProyectos, "[]");
             }
 
             MessageBox.Show("Usuario creado correctamente");
