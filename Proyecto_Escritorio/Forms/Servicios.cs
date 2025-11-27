@@ -65,8 +65,6 @@ namespace Proyecto_Escritorio
 
         private void button_VerUsuarios_Click(object sender, EventArgs e)
         {
-            VerUsuarios crear = new VerUsuarios();
-            crear.ShowDialog();
         }
     }
 }

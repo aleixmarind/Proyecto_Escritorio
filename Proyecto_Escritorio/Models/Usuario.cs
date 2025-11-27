@@ -8,8 +8,14 @@ namespace Proyecto_Escritorio.Models
         public string Email { get; set; }
         public string Password { get; set; }
         public string Nombre { get; set; }       
-        public string NombreConEmail => $"{Nombre} ({Email})";
-
+        public string NombreConEmail
+        {
+            get { return $"{Nombre} ({Email})"; }
+        }
+        public override string ToString()
+        {
+            return NombreConEmail;
+        }
 
 
     }

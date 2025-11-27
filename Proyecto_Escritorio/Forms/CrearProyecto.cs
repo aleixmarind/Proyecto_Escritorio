@@ -11,8 +11,9 @@ namespace Proyecto_Escritorio
     {
         private Usuario usuario; // Usuario actual (admin)
         private string rutaProyectos;
-        private string carpetaData; // carpeta Data
-        private List<Usuario> todosLosUsuarios; // lista de todos los usuarios
+        private string carpetaData;
+        private List<Usuario> todosLosUsuarios;
+        private List<Tarea> tareasTemporal = new List<Tarea>();
 
         public CrearProyecto(Usuario usuarioActual)
         {
@@ -27,13 +28,13 @@ namespace Proyecto_Escritorio
             if (!Directory.Exists(carpetaData))
                 Directory.CreateDirectory(carpetaData);
 
-            // Ruta completa hacia proyectos.json
+            // Ruta hacia proyectos.json
             rutaProyectos = Path.Combine(carpetaData, "proyectos.json");
 
-            // Crear archivo vacío si no existe
             if (!File.Exists(rutaProyectos))
                 File.WriteAllText(rutaProyectos, "[]");
         }
+
 
         private void CrearProyecto_Load(object sender, EventArgs e)
         {
@@ -48,19 +49,35 @@ namespace Proyecto_Escritorio
                     todosLosUsuarios = JsonConvert.DeserializeObject<List<Usuario>>(jsonUsuarios) ?? new List<Usuario>();
             }
 
-            // Llenar CheckedListBox usando DataSource
-            checkedListBox1.DataSource = null; // Limpiar primero
+            // Llenar CheckedListBox
+            checkedListBox1.DataSource = null;
             checkedListBox1.DataSource = todosLosUsuarios;
-            checkedListBox1.DisplayMember = "NombreConEmail";  // Nueva propiedad calculada
+            checkedListBox1.DisplayMember = "NombreConEmail";
             checkedListBox1.ValueMember = "Id";
 
-            // Marcar automáticamente al usuario admin que crea el proyecto
+            // Seleccionar automáticamente al admin
             for (int i = 0; i < todosLosUsuarios.Count; i++)
             {
                 if (todosLosUsuarios[i].Id == usuario.Id)
                     checkedListBox1.SetItemChecked(i, true);
             }
         }
+
+
+        private void button_Tarea_Click(object sender, EventArgs e)
+        {
+            CrearTarea ventanaTarea = new CrearTarea(todosLosUsuarios);
+
+            if (ventanaTarea.ShowDialog() == DialogResult.OK)
+            {
+                if (ventanaTarea.tareaCreada != null)
+                {
+                    tareasTemporal.Add(ventanaTarea.tareaCreada);
+                    MessageBox.Show($"Tarea añadida correctamente.\nTotal tareas: {tareasTemporal.Count}");
+                }
+            }
+        }
+
 
         private void button_CrearProyecto_Click(object sender, EventArgs e)
         {
@@ -75,6 +92,7 @@ namespace Proyecto_Escritorio
 
             // Cargar proyectos existentes
             List<Proyecto> proyectos = new List<Proyecto>();
+
             if (File.Exists(rutaProyectos))
             {
                 string jsonExistente = File.ReadAllText(rutaProyectos);
@@ -82,7 +100,7 @@ namespace Proyecto_Escritorio
                     proyectos = JsonConvert.DeserializeObject<List<Proyecto>>(jsonExistente) ?? new List<Proyecto>();
             }
 
-            // Obtener IDs de los usuarios seleccionados
+            // Obtener usuarios asignados
             List<Guid> usuariosAsignados = new List<Guid>();
             foreach (Usuario u in checkedListBox1.CheckedItems)
             {
@@ -98,24 +116,27 @@ namespace Proyecto_Escritorio
                 FechaInicio = DateTime.Now,
                 FechaFin = DateTime.Now.AddDays(7),
                 UsuariosAsignados = usuariosAsignados,
-                Tareas = new List<Tarea>()
+                Tareas = tareasTemporal // 🔥 SE GUARDAN LAS TAREAS
             };
 
             proyectos.Add(nuevoProyecto);
 
-            // Guardar proyectos en JSON
+            // Guardar
             File.WriteAllText(rutaProyectos, JsonConvert.SerializeObject(proyectos, Formatting.Indented));
 
-            MessageBox.Show("Proyecto creado con éxito.");
+            MessageBox.Show("Proyecto creado con éxito con " + tareasTemporal.Count + " tareas.");
 
-            // Abrir Servicios pasando el usuario admin
             Servicios paginaServicios = new Servicios(usuario);
             paginaServicios.Show();
             this.Close();
         }
 
+
         private void textBox_NombreProyecto_TextChanged(object sender, EventArgs e) { }
 
-        private void button_Tarea_Click(object sender, EventArgs e) { }
+        private void checkedListBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
