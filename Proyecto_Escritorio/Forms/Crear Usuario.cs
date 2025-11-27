@@ -11,6 +11,7 @@ namespace Proyecto_Escritorio.Forms
     {
         private string rutaUsuarios;
         private string carpetaData; // ✅ Variable de clase para usar en todo el formulario
+        private List<Usuario> usuarios; // Lista de usuarios cargados
 
         public Crear_Usuario()
         {
@@ -87,7 +88,140 @@ namespace Proyecto_Escritorio.Forms
             }
 
             MessageBox.Show("Usuario creado correctamente");
+        }
+
+        private void listBoxUsuarios_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void CargarUsuarios()
+        {
+            listBoxUsuarios.Items.Clear();
+
+            if (!File.Exists(rutaUsuarios))
+            {
+                MessageBox.Show("El archivo usuarios.json no existe. Se creará uno nuevo al guardar usuarios.");
+                usuarios = new List<Usuario>();
+                return;
+            }
+
+            try
+            {
+                string json = File.ReadAllText(rutaUsuarios);
+
+                if (string.IsNullOrWhiteSpace(json) || !json.Trim().StartsWith("["))
+                {
+                    MessageBox.Show("El JSON de usuarios está vacío o dañado.");
+                    usuarios = new List<Usuario>();
+                    return;
+                }
+
+                usuarios = JsonConvert.DeserializeObject<List<Usuario>>(json) ?? new List<Usuario>();
+
+                foreach (var u in usuarios)
+                {
+                    listBoxUsuarios.Items.Add($"{u.Id} — {u.Email} — {u.Nombre}");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al leer usuarios: " + ex.Message);
+                usuarios = new List<Usuario>();
+            }
+        }
+
+        private void btnRecargar_Click(object sender, EventArgs e)
+        {
+            CargarUsuarios();
+        }
+
+        private void btnMenuPrincipal_Click(object sender, EventArgs e)
+        {
+
+            if (usuarios.Count == 0)
+            {
+                MessageBox.Show("No hay usuarios para pasar al menú principal.");
+                return;
+            }
+
+            // Aquí puedes elegir qué usuario pasar, por ejemplo el primero:
+            Usuario usuarioLogueado = usuarios[0];
+
+            Servicios gestionProyectos = new Servicios(usuarioLogueado);
+            gestionProyectos.Show();
             this.Close();
+        }
+
+        private void btnEliminar_Click(object sender, EventArgs e)
+        {
+            if (listBoxUsuarios.SelectedIndex == -1)
+            {
+                MessageBox.Show("Selecciona un usuario para eliminar.");
+                return;
+            }
+
+            string seleccionado = listBoxUsuarios.SelectedItem.ToString();
+            string idTexto = seleccionado.Split('—')[0].Trim();
+
+            if (!Guid.TryParse(idTexto, out Guid idUsuario))
+            {
+                MessageBox.Show("Error al obtener el ID del usuario.");
+                return;
+            }
+
+            // Encontrar el usuario real
+            Usuario usuarioAEliminar = usuarios.Find(u => u.Id == idUsuario);
+
+            if (usuarioAEliminar == null)
+            {
+                MessageBox.Show("Usuario no encontrado.");
+                return;
+            }
+
+            // Eliminarlo de la lista
+            usuarios.Remove(usuarioAEliminar);
+
+            // Guardar en JSON
+            File.WriteAllText(rutaUsuarios, JsonConvert.SerializeObject(usuarios, Formatting.Indented));
+
+            // 🗑 Eliminar archivo de proyectos del usuario
+            string rutaProyectos = Path.Combine(carpetaData, $"proyectos_{usuarioAEliminar.Id}.json");
+            if (File.Exists(rutaProyectos))
+                File.Delete(rutaProyectos);
+
+            MessageBox.Show("Usuario eliminado correctamente.");
+
+            CargarUsuarios();
+        }
+
+        private void btnEliminarTodo_Click(object sender, EventArgs e)
+        {
+            DialogResult confirm = MessageBox.Show(
+                "¿Seguro que quieres eliminar TODOS los usuarios?\n\nEsta acción no se puede deshacer.",
+                "Confirmar eliminación",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning
+            );
+
+            if (confirm == DialogResult.No)
+                return;
+
+            // 🗑 Borrar todos los archivos proyectos_{id}.json
+            foreach (Usuario u in usuarios)
+            {
+                string rutaProyectos = Path.Combine(carpetaData, $"proyectos_{u.Id}.json");
+                if (File.Exists(rutaProyectos))
+                    File.Delete(rutaProyectos);
+            }
+
+            // Vaciar lista y archivo JSON
+            usuarios.Clear();
+            File.WriteAllText(rutaUsuarios, "[]");
+
+            MessageBox.Show("Todos los usuarios fueron eliminados.");
+
+            CargarUsuarios();
         }
     }
 }
