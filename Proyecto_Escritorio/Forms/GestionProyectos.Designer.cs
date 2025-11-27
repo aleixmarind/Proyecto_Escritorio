@@ -60,7 +60,7 @@
             // 
             this.button_VerProyectos.BackColor = System.Drawing.Color.DodgerBlue;
             this.button_VerProyectos.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button_VerProyectos.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.button_VerProyectos.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.button_VerProyectos.Location = new System.Drawing.Point(276, 131);
             this.button_VerProyectos.Name = "button_VerProyectos";
             this.button_VerProyectos.Size = new System.Drawing.Size(246, 44);
@@ -80,6 +80,7 @@
             this.button1.TabIndex = 17;
             this.button1.Text = "Eliminar proyecto";
             this.button1.UseVisualStyleBackColor = false;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // button2
             // 

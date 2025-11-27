@@ -1,26 +1,44 @@
 [
   {
-    "Id": "f9f23a91-25a8-4810-acca-caa34c9aad3b",
+    "Id": "13fa995f-6982-49f5-8c9f-9b83a25adb5d",
     "Nombre": "Prueba 1",
-    "Descripcion": "Prueba",
-    "FechaInicio": "2025-11-27T17:35:29.6187803+01:00",
-    "FechaFin": "2025-12-04T17:35:29.6187803+01:00",
+    "Descripcion": "prueba 1",
+    "FechaInicio": "2025-11-27T19:28:46.7119039+01:00",
+    "FechaFin": "2025-12-04T19:28:46.7119039+01:00",
     "UsuariosAsignados": [
       "20f6127b-defd-4ead-afbc-9a4617ce89f1",
-      "ad6d7e43-a7b2-45b7-bf74-1b3842657785"
+      "ad6d7e43-a7b2-45b7-bf74-1b3842657785",
+      "b8cd1b4d-2e4a-4f4d-b75c-e3b14a69fe84"
     ],
     "Tareas": [
       {
-        "Id": "dac4dd5c-8d2e-45f6-9b87-958151fa79aa",
-        "Nombre": "Tarea 1",
-        "Descripcion": "Prueba",
+        "Id": "9a2069d1-206c-4b32-ac4d-19853a3a5929",
+        "Nombre": "David",
+        "Descripcion": "prueba david",
         "UsuarioAsignadoId": null,
-        "UsuariosAsignados": [],
+        "UsuariosAsignados": [
+          "b8cd1b4d-2e4a-4f4d-b75c-e3b14a69fe84"
+        ],
         "Estado": "Bloqueado",
+        "Prioridad": "Alta",
+        "FechaCreacion": "2025-11-27T19:27:40.2233624+01:00",
+        "FechaInicio": "2025-11-27T19:27:18.1285369+01:00",
+        "FechaFin": "2025-12-05T19:27:18",
+        "Completada": false
+      },
+      {
+        "Id": "55124e8d-f61b-4b4a-a2e6-fb3b1f46f97b",
+        "Nombre": "Aleix",
+        "Descripcion": "prueba aleix",
+        "UsuarioAsignadoId": null,
+        "UsuariosAsignados": [
+          "ad6d7e43-a7b2-45b7-bf74-1b3842657785"
+        ],
+        "Estado": "En progreso",
         "Prioridad": "Muy alta",
-        "FechaCreacion": "2025-11-27T17:35:26.4408527+01:00",
-        "FechaInicio": "2025-11-05T17:34:51",
-        "FechaFin": "2025-11-13T17:34:51",
+        "FechaCreacion": "2025-11-27T19:28:44.8215248+01:00",
+        "FechaInicio": "2025-11-27T19:27:41.8814247+01:00",
+        "FechaFin": "2025-12-03T19:27:41",
         "Completada": false
       }
     ]

@@ -66,7 +66,21 @@ namespace Proyecto_Escritorio
 
         private void button_Tarea_Click(object sender, EventArgs e)
         {
-            CrearTarea ventanaTarea = new CrearTarea(todosLosUsuarios);
+            // Filtrar solo los usuarios seleccionados
+            List<Usuario> usuariosSeleccionados = new List<Usuario>();
+            foreach (var item in checkedListBox1.CheckedItems)
+            {
+                if (item is Usuario u)
+                    usuariosSeleccionados.Add(u);
+            }
+
+            if (usuariosSeleccionados.Count == 0)
+            {
+                MessageBox.Show("Debes seleccionar al menos un usuario para asignar tareas.");
+                return;
+            }
+
+            CrearTarea ventanaTarea = new CrearTarea(usuariosSeleccionados, usuario);
 
             if (ventanaTarea.ShowDialog() == DialogResult.OK)
             {
@@ -77,6 +91,7 @@ namespace Proyecto_Escritorio
                 }
             }
         }
+
 
 
         private void button_CrearProyecto_Click(object sender, EventArgs e)
@@ -115,14 +130,14 @@ namespace Proyecto_Escritorio
                 Descripcion = descripcion,
                 FechaInicio = DateTime.Now,
                 FechaFin = DateTime.Now.AddDays(7),
-                UsuariosAsignados = usuariosAsignados,
-                Tareas = tareasTemporal // 🔥 SE GUARDAN LAS TAREAS
+                UsuariosAsignados = usuariosAsignados, // IDs de usuarios del proyecto
+                Tareas = tareasTemporal // ✅ Aquí se guardan las tareas con sus usuarios
             };
 
+            // Guardar en JSON
             proyectos.Add(nuevoProyecto);
-
-            // Guardar
             File.WriteAllText(rutaProyectos, JsonConvert.SerializeObject(proyectos, Formatting.Indented));
+
 
             MessageBox.Show("Proyecto creado con éxito con " + tareasTemporal.Count + " tareas.");
 

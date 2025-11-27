@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
-using Newtonsoft.Json;
 using Proyecto_Escritorio.Models;
 
 namespace Proyecto_Escritorio
@@ -10,57 +9,38 @@ namespace Proyecto_Escritorio
     public partial class CrearTarea : Form
     {
         private List<Usuario> usuariosDisponibles;
-        private List<Usuario> todosLosUsuarios;
-        private string carpetaData;
-        private Usuario usuario; // Usuario actual (admin)
+        private Usuario usuario; // usuario actual (admin)
 
-
-        // Para devolver la tarea creada al formulario padre
+        // Para devolver la tarea creada
         public Tarea tareaCreada { get; private set; }
 
-        // Constructor: recibe lista de usuarios o la carga desde JSON
-        public CrearTarea(List<Usuario> usuarios = null)
+        // Constructor: recibe lista de usuarios y usuario actual
+        public CrearTarea(List<Usuario> usuarios, Usuario usuarioActual)
         {
             InitializeComponent();
-            usuariosDisponibles = usuarios; // Si viene desde CrearProyecto
+            usuariosDisponibles = usuarios ?? new List<Usuario>();
+            usuario = usuarioActual;
         }
 
         private void CrearTarea_Load(object sender, EventArgs e)
         {
-            // Cargar usuarios desde JSON
-            string rutaUsuarios = Path.Combine(carpetaData, "usuarios.json");
-            todosLosUsuarios = new List<Usuario>();
+            if (usuariosDisponibles == null || usuariosDisponibles.Count == 0)
+                return;
 
-            if (File.Exists(rutaUsuarios))
-            {
-                string jsonUsuarios = File.ReadAllText(rutaUsuarios);
-                if (!string.IsNullOrWhiteSpace(jsonUsuarios))
-                    todosLosUsuarios = JsonConvert.DeserializeObject<List<Usuario>>(jsonUsuarios) ?? new List<Usuario>();
-            }
-
-            // Llenar CheckedListBox
-            checkedListBox_Compartir.DataSource = null;
-            checkedListBox_Compartir.DataSource = todosLosUsuarios;
-            checkedListBox_Compartir.DisplayMember = "NombreConEmail";
+            checkedListBox_Compartir.DataSource = null;  // Reset
+            checkedListBox_Compartir.DataSource = usuariosDisponibles;
+            checkedListBox_Compartir.DisplayMember = "NombreConEmail"; // Debe existir en la clase Usuario
             checkedListBox_Compartir.ValueMember = "Id";
 
-            // Seleccionar automáticamente al admin
-            for (int i = 0; i < todosLosUsuarios.Count; i++)
+            // Marcar automáticamente al admin si está en la lista
+            for (int i = 0; i < usuariosDisponibles.Count; i++)
             {
-                if (todosLosUsuarios[i].Id == usuario.Id)
+                if (usuariosDisponibles[i].Id == usuario.Id)
                     checkedListBox_Compartir.SetItemChecked(i, true);
             }
         }
 
-        // -------------------------------
-        // CARGAR USUARIOS DESDE JSON
-        // -------------------------------
-       
-  
 
-        // -------------------------------
-        // RELLENAR CONTROLES
-        // -------------------------------
         private void buttonAñadirTarea_Click(object sender, EventArgs e)
         {
             string nombre = textBox_Nombre.Text.Trim();
@@ -87,14 +67,11 @@ namespace Proyecto_Escritorio
             string estado = checkedListBox_Estado.CheckedItems[0].ToString();
             string prioridad = checkedListBoxPrioridad.CheckedItems[0].ToString();
 
-            // Obtener usuarios asignados comparando con la lista original
+            // Obtener usuarios asignados
             List<Guid> asignados = new List<Guid>();
-            for (int i = 0; i < checkedListBox_Compartir.CheckedItems.Count; i++)
+            foreach (Usuario u in checkedListBox_Compartir.CheckedItems)
             {
-                string nombreConEmail = checkedListBox_Compartir.CheckedItems[i].ToString();
-                Usuario u = usuariosDisponibles.Find(x => x.NombreConEmail == nombreConEmail);
-                if (u != null)
-                    asignados.Add(u.Id);
+                asignados.Add(u.Id);
             }
 
             tareaCreada = new Tarea
@@ -104,7 +81,7 @@ namespace Proyecto_Escritorio
                 Descripcion = descripcion,
                 Estado = estado,
                 Prioridad = prioridad,
-                UsuariosAsignados = asignados,
+                UsuariosAsignados = asignados, // ✅ Aquí se guardan los IDs
                 FechaCreacion = DateTime.Now,
                 FechaInicio = dateTimePickerFechaInicio.Value,
                 FechaFin = dateTimePickerFechaFinalización.Value
@@ -120,9 +97,7 @@ namespace Proyecto_Escritorio
             this.Close();
         }
 
-        // -------------------------------
-        // EVENTOS VACÍOS NECESARIOS PARA DISEÑADOR
-        // -------------------------------
+        // Eventos vacíos necesarios para diseñador
         private void groupBox_Detalles_Enter(object sender, EventArgs e) { }
         private void textBox_Nombre_TextChanged(object sender, EventArgs e) { }
         private void textBox_Descripcion_TextChanged(object sender, EventArgs e) { }

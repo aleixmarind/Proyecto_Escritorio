@@ -302,6 +302,7 @@
             this.Controls.Add(this.labelTitulo);
             this.Name = "CrearTarea";
             this.Text = "CrearTarea";
+            this.Load += new System.EventHandler(this.CrearTarea_Load);
             this.groupBox_CrearTarea.ResumeLayout(false);
             this.groupBox_CrearTarea.PerformLayout();
             this.groupBox_Detalles.ResumeLayout(false);
