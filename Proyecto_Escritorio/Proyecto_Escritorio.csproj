@@ -49,6 +49,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Forms\EditarProyecto.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\EditarProyecto.Designer.cs">
+      <DependentUpon>EditarProyecto.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\CrearTarea.cs">
       <SubType>Form</SubType>
     </Compile>

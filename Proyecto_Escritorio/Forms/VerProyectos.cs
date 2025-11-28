@@ -12,50 +12,49 @@ namespace Proyecto_Escritorio
     {
         private Usuario usuario; // Usuario logueado
         private string rutaProyectos;
-        private List<Proyecto> proyectosUsuario;
+        private List<Proyecto> todosLosProyectos;
 
         public VerProyectos(Usuario usuarioLogueado)
         {
             InitializeComponent();
             usuario = usuarioLogueado;
 
-            // Obtener carpeta Data en la raíz del proyecto
+            // Carpeta Data
             string projectPath = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.FullName;
             string carpetaData = Path.Combine(projectPath, "Data");
             if (!Directory.Exists(carpetaData))
                 Directory.CreateDirectory(carpetaData);
 
-            // Ruta completa hacia proyectos.json
             rutaProyectos = Path.Combine(carpetaData, "proyectos.json");
 
-            // Crear archivo vacío si no existe
             if (!File.Exists(rutaProyectos))
                 File.WriteAllText(rutaProyectos, "[]");
 
+            // Cargar proyectos al iniciar
             CargarProyectos();
         }
 
         private void CargarProyectos()
         {
-            listBoxProyectos.Items.Clear();
+            listBox_Proyectos.Items.Clear();
+            listBox_Tareas.Items.Clear();
 
             try
             {
                 string json = File.ReadAllText(rutaProyectos);
-                List<Proyecto> todosLosProyectos = JsonConvert.DeserializeObject<List<Proyecto>>(json) ?? new List<Proyecto>();
+                todosLosProyectos = JsonConvert.DeserializeObject<List<Proyecto>>(json) ?? new List<Proyecto>();
 
-                // Filtrar solo los proyectos donde el usuario está asignado
-                proyectosUsuario = todosLosProyectos
-                    .Where(p => p.UsuariosAsignados.Contains(usuario.Id))
-                    .ToList();
-
-                foreach (var proyecto in proyectosUsuario)
+                if (todosLosProyectos.Count == 0)
                 {
-                    listBoxProyectos.Items.Add($"{proyecto.Nombre} ({proyecto.FechaInicio.ToShortDateString()} - {proyecto.FechaFin.ToShortDateString()})");
+                    listBox_Proyectos.Items.Add("No hay proyectos.");
+                    return;
                 }
 
-                if (proyectosUsuario.Count == 0)
-                    listBoxProyectos.Items.Add("No tienes proyectos asignados.");
+                // Agregar proyectos al ListBox
+                foreach (var proyecto in todosLosProyectos)
+                {
+                    listBox_Proyectos.Items.Add($"{proyecto.Nombre} | Inicio: {proyecto.FechaInicio.ToShortDateString()} | Fin: {proyecto.FechaFin.ToShortDateString()}");
+                }
             }
             catch (Exception ex)
             {
@@ -63,33 +62,60 @@ namespace Proyecto_Escritorio
             }
         }
 
-        private void listBoxProyectos_SelectedIndexChanged(object sender, EventArgs e)
+        private void listBox_Proyectos_SelectedIndexChanged(object sender, EventArgs e)
         {
-            listBoxTareas.Items.Clear();
+            listBox_Tareas.Items.Clear();
 
-            int index = listBoxProyectos.SelectedIndex;
-            if (index < 0 || index >= proyectosUsuario.Count)
+            int index = listBox_Proyectos.SelectedIndex;
+            if (index < 0 || index >= todosLosProyectos.Count)
                 return;
 
-            Proyecto proyectoSeleccionado = proyectosUsuario[index];
+            Proyecto proyecto = todosLosProyectos[index];
 
-            // Filtrar solo tareas asignadas al usuario logueado
-            var tareasUsuario = proyectoSeleccionado.Tareas
-                .Where(t => t.UsuarioAsignadoId == usuario.Id)
-                .ToList();
-
-            foreach (var tarea in tareasUsuario)
+            // Mostrar info completa de cada tarea
+            foreach (var tarea in proyecto.Tareas)
             {
-                listBoxTareas.Items.Add($"{tarea.Nombre} - {(tarea.Completada ? "Completada" : "Pendiente")}");
+                string usuarios = string.Join(", ", tarea.UsuariosAsignados);
+                listBox_Tareas.Items.Add(
+                    $"Tarea: {tarea.Nombre} | Estado: {tarea.Estado} | Prioridad: {tarea.Prioridad} | Inicio: {tarea.FechaInicio.ToShortDateString()} | Fin: {tarea.FechaFin.ToShortDateString()} | Usuarios: {usuarios}"
+                );
             }
 
-            if (tareasUsuario.Count == 0)
-                listBoxTareas.Items.Add("No tienes tareas asignadas en este proyecto.");
+            if (proyecto.Tareas.Count == 0)
+                listBox_Tareas.Items.Add("No hay tareas en este proyecto.");
         }
 
-        private void btnRefrescar_Click_1(object sender, EventArgs e)
+        private void button_Recargar_Click(object sender, EventArgs e)
         {
             CargarProyectos();
+        }
+
+        private void button_EliminarProyecto_Click(object sender, EventArgs e)
+        {
+            int index = listBox_Proyectos.SelectedIndex;
+            if (index < 0 || index >= todosLosProyectos.Count)
+            {
+                MessageBox.Show("Selecciona un proyecto para eliminar.");
+                return;
+            }
+
+            if (MessageBox.Show("¿Seguro que deseas eliminar este proyecto?", "Confirmar", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                todosLosProyectos.RemoveAt(index);
+                File.WriteAllText(rutaProyectos, JsonConvert.SerializeObject(todosLosProyectos, Formatting.Indented));
+                CargarProyectos();
+            }
+        }
+
+        private void button_MenuPrincipal_Click(object sender, EventArgs e)
+        {
+            Servicios ventanaServicios = new Servicios(usuario);
+            ventanaServicios.Show();
+            this.Close();
+        }
+        private void listBox_Tareas_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
