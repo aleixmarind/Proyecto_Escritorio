@@ -127,6 +127,9 @@
     <EmbeddedResource Include="Forms\CrearProyecto.resx">
       <DependentUpon>CrearProyecto.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\EditarProyecto.resx">
+      <DependentUpon>EditarProyecto.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\GestionProyectos.resx">
       <DependentUpon>GestionProyectos.cs</DependentUpon>
     </EmbeddedResource>

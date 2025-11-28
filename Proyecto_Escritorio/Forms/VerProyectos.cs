@@ -72,18 +72,33 @@ namespace Proyecto_Escritorio
 
             Proyecto proyecto = todosLosProyectos[index];
 
-            // Mostrar info completa de cada tarea
+            // Leer usuarios desde JSON
+            string rutaUsuarios = Path.Combine(Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.FullName, "Data", "usuarios.json");
+            List<Usuario> todosLosUsuarios = new List<Usuario>();
+            if (File.Exists(rutaUsuarios))
+            {
+                string jsonUsuarios = File.ReadAllText(rutaUsuarios);
+                todosLosUsuarios = JsonConvert.DeserializeObject<List<Usuario>>(jsonUsuarios) ?? new List<Usuario>();
+            }
+
             foreach (var tarea in proyecto.Tareas)
             {
-                string usuarios = string.Join(", ", tarea.UsuariosAsignados);
+                // Mapear IDs a nombres
+                var nombresUsuarios = tarea.UsuariosAsignados
+                    .Select(id => todosLosUsuarios.FirstOrDefault(u => u.Id == id)?.Nombre ?? "Desconocido")
+                    .ToList();
+
+                string usuariosStr = nombresUsuarios.Count > 0 ? string.Join(", ", nombresUsuarios) : "Sin usuarios";
+
                 listBox_Tareas.Items.Add(
-                    $"Tarea: {tarea.Nombre} | Estado: {tarea.Estado} | Prioridad: {tarea.Prioridad} | Inicio: {tarea.FechaInicio.ToShortDateString()} | Fin: {tarea.FechaFin.ToShortDateString()} | Usuarios: {usuarios}"
+                    $"Tarea: {tarea.Nombre} | Estado: {tarea.Estado} | Prioridad: {tarea.Prioridad} | Inicio: {tarea.FechaInicio.ToShortDateString()} | Fin: {tarea.FechaFin.ToShortDateString()} | Usuarios: {usuariosStr}"
                 );
             }
 
             if (proyecto.Tareas.Count == 0)
                 listBox_Tareas.Items.Add("No hay tareas en este proyecto.");
         }
+
 
         private void button_Recargar_Click(object sender, EventArgs e)
         {
@@ -116,6 +131,38 @@ namespace Proyecto_Escritorio
         private void listBox_Tareas_SelectedIndexChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void VerProyectos_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button_EditarProyecto_Click(object sender, EventArgs e)
+        {
+            int index = listBox_Proyectos.SelectedIndex;
+            if (index < 0 || index >= todosLosProyectos.Count)
+            {
+                MessageBox.Show("Selecciona un proyecto para editar.");
+                return;
+            }
+
+            // Leer usuarios
+            string rutaUsuarios = Path.Combine(Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.FullName, "Data", "usuarios.json");
+            List<Usuario> usuarios = new List<Usuario>();
+            if (File.Exists(rutaUsuarios))
+            {
+                string jsonUsuarios = File.ReadAllText(rutaUsuarios);
+                usuarios = JsonConvert.DeserializeObject<List<Usuario>>(jsonUsuarios) ?? new List<Usuario>();
+            }
+
+            // Abrir formulario EditarProyecto
+            EditarProyecto editarForm = new EditarProyecto(todosLosProyectos[index], usuarios, usuario);
+            if (editarForm.ShowDialog() == DialogResult.OK)
+            {
+                // Refrescar lista
+                CargarProyectos();
+            }
         }
     }
 }

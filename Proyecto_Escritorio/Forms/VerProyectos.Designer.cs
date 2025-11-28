@@ -35,6 +35,7 @@
             this.button_MenuPrincipal = new System.Windows.Forms.Button();
             this.listBox_Tareas = new System.Windows.Forms.ListBox();
             this.groupBox_Tareas = new System.Windows.Forms.GroupBox();
+            this.button_EditarProyecto = new System.Windows.Forms.Button();
             this.groupBox_Proyectos.SuspendLayout();
             this.groupBox_Tareas.SuspendLayout();
             this.SuspendLayout();
@@ -67,7 +68,7 @@
             this.button_Recargar.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.button_Recargar.Location = new System.Drawing.Point(18, 290);
             this.button_Recargar.Name = "button_Recargar";
-            this.button_Recargar.Size = new System.Drawing.Size(203, 40);
+            this.button_Recargar.Size = new System.Drawing.Size(142, 40);
             this.button_Recargar.TabIndex = 2;
             this.button_Recargar.Text = "Recargar";
             this.button_Recargar.UseVisualStyleBackColor = false;
@@ -78,9 +79,9 @@
             this.button_EliminarProyecto.BackColor = System.Drawing.Color.DodgerBlue;
             this.button_EliminarProyecto.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_EliminarProyecto.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.button_EliminarProyecto.Location = new System.Drawing.Point(289, 290);
+            this.button_EliminarProyecto.Location = new System.Drawing.Point(353, 290);
             this.button_EliminarProyecto.Name = "button_EliminarProyecto";
-            this.button_EliminarProyecto.Size = new System.Drawing.Size(203, 40);
+            this.button_EliminarProyecto.Size = new System.Drawing.Size(139, 40);
             this.button_EliminarProyecto.TabIndex = 3;
             this.button_EliminarProyecto.Text = "Eliminar proyecto";
             this.button_EliminarProyecto.UseVisualStyleBackColor = false;
@@ -120,11 +121,22 @@
             this.groupBox_Tareas.TabStop = false;
             this.groupBox_Tareas.Text = "Tareas asignadas";
             // 
+            // button_EditarProyecto
+            // 
+            this.button_EditarProyecto.Location = new System.Drawing.Point(166, 291);
+            this.button_EditarProyecto.Name = "button_EditarProyecto";
+            this.button_EditarProyecto.Size = new System.Drawing.Size(181, 39);
+            this.button_EditarProyecto.TabIndex = 7;
+            this.button_EditarProyecto.Text = "Editar proyecto";
+            this.button_EditarProyecto.UseVisualStyleBackColor = true;
+            this.button_EditarProyecto.Click += new System.EventHandler(this.button_EditarProyecto_Click);
+            // 
             // VerProyectos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.button_EditarProyecto);
             this.Controls.Add(this.groupBox_Tareas);
             this.Controls.Add(this.button_MenuPrincipal);
             this.Controls.Add(this.button_EliminarProyecto);
@@ -132,6 +144,7 @@
             this.Controls.Add(this.groupBox_Proyectos);
             this.Name = "VerProyectos";
             this.Text = " ";
+            this.Load += new System.EventHandler(this.VerProyectos_Load);
             this.groupBox_Proyectos.ResumeLayout(false);
             this.groupBox_Tareas.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -147,5 +160,6 @@
         private System.Windows.Forms.Button button_MenuPrincipal;
         private System.Windows.Forms.ListBox listBox_Tareas;
         private System.Windows.Forms.GroupBox groupBox_Tareas;
+        private System.Windows.Forms.Button button_EditarProyecto;
     }
 }
